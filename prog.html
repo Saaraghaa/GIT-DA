@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Text Processing and Armstrong Number Checker</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 2rem;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+        }
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+        .card-header {
+            background-color: #28a745; /* Changed color to green */
+            color: white;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .btn-primary {
+            background-color: #28a745; /* Changed color to green */
+            border-color: #28a745; /* Changed border color to green */
+        }
+        .btn-primary:hover {
+            background-color: #218838; /* Darker green on hover */
+            border-color: #218838; /* Darker green border on hover */
+        }
+        .result {
+            margin-top: 1rem;
+            font-size: 1.25rem;
+            font-weight: bold; /* Bold result text */
+        }
+        .nav-tabs .nav-link {
+            color: white;
+            background-color: #007bff;
+        }
+        .nav-tabs .nav-link.active {
+            color: #000;  
+            background-color: #ffffff;  
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="text-tab" data-toggle="tab" href="#text" role="tab" aria-controls="text" aria-selected="true">Text Processing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="armstrong-tab" data-toggle="tab" href="#armstrong" role="tab" aria-controls="armstrong" aria-selected="false">Armstrong Number Checker</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="text" role="tabpanel" aria-labelledby="text-tab">
+                        <form id="textForm">
+                            <div class="form-group">
+                                <label for="inputText">Enter text:</label>
+                                <input type="text" class="form-control" id="inputText" name="inputText" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="deleteChar">Delete character:</label>
+                                <input type="text" class="form-control" id="deleteChar" name="deleteChar" maxlength="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="joinText">Join text:</label>
+                                <input type="text" class="form-control" id="joinText" name="joinText">
+                            </div>
+                            <div class="form-group">
+                                <label for="replaceChar">Replace character (old,new):</label>
+                                <input type="text" class="form-control" id="replaceChar" name="replaceChar" placeholder="old,new">
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="toUppercase" name="toUppercase">
+                                <label class="form-check-label" for="toUppercase">Convert to UPPERCASE</label> <!-- Changed to UPPERCASE -->
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="toLowercase" name="toLowercase">
+                                <label class="form-check-label" for="toLowercase">Convert to lowercase</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="reverse" name="reverse">
+                                <label class="form-check-label" for="reverse">Reverse text</label>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-block" onclick="processText()">Process Text</button>
+                        </form>
+                        <div id="textResult" class="result"></div>
+                    </div>
+                    <div class="tab-pane fade" id="armstrong" role="tabpanel" aria-labelledby="armstrong-tab">
+                        <form id="armstrongForm">
+                            <div class="form-group">
+                                <label for="number">Enter a number:</label>
+                                <input type="number" class="form-control" id="number" name="number" required>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-block" onclick="checkArmstrong()">Check Armstrong Number</button>
+                        </form>
+                        <div id="armstrongResult" class="result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        function processText() {
+            var inputText = document.getElementById('inputText').value;
+            var deleteChar = document.getElementById('deleteChar').value;
+            var joinText = document.getElementById('joinText').value;
+            var replaceChar = document.getElementById('replaceChar').value;
+            var toUppercase = document.getElementById('toUppercase').checked;
+            var toLowercase = document.getElementById('toLowercase').checked;
+            var reverse = document.getElementById('reverse').checked;
+
+            if (deleteChar) {
+                inputText = inputText.replaceAll(deleteChar, '');
+            }
+
+            if (joinText) {
+                inputText += joinText;
+            }
+
+            if (replaceChar) {
+                var replacements = replaceChar.split(',');
+                inputText = inputText.replaceAll(replacements[0], replacements[1]);
+            }
+
+            if (toUppercase) {
+                inputText = inputText.toUpperCase();
+            }
+
+            if (toLowercase) {
+                inputText = inputText.toLowerCase();
+            }
+
+            if (reverse) {
+                inputText = inputText.split('').reverse().join('');
+            }
+
+            document.getElementById('textResult').innerHTML = "<p class='text-success'>Processed Text: " + inputText + "</p>";
+        }
+
+function checkArmstrong() {
+    var number = document.getElementById('number').value;
+    var originalNumber = number;
+    var sum = 0;
+    var numberOfDigits = String(number).length;
+
+    while (number > 0) {
+        var digit = number % 10;
+        sum += Math.pow(digit, numberOfDigits);
+        number = Math.floor(number / 10);
+    }
+
+    if (sum == originalNumber) {
+        document.getElementById('armstrongResult').innerHTML = "<p class='text-success'>" + originalNumber + " is an Armstrong number.</p>";
+    } else {
+        document.getElementById('armstrongResult').innerHTML = "<p class='text-danger'>" + originalNumber + " is not an Armstrong number.</p>";
+    }
+}
+
+    </script>
+</body>
+</html>
